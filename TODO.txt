@@ -1,0 +1,65 @@
+2013.03.20
+- Changed debug and status commands to query and on/off sets based on 2nd parameter:
+    ? Queries the status    //#!?.
+    0 Turns off.            //#?0.
+    1 Turns on.             //#!1.
+2013.03.17
+- Created DebugPrint___ methods to deal with debug mode and run time mode.
+- Removed PIN13 as status LED since we need that for switches.  have to find something else.
+- Added commands to toggle debug mode and spewstatus from binary to ascii:
+    #??. Toggles switch status updates (Default is OFF)
+    #!!. Toggles ASCII to binary (Default is ASCII)
+- Fixed ReadCommand to handle reading faster than the Serial can buffer.  Works great now.
+- Re-assigned all pins to match latest Switch.xls.  Also moved Solenoid OUTPUT pins to Analog side of board.
+
+2013.03.15
+- Changed the pin numbers to match what I hope is final pinout for the Due(mega).
+- Added a SanityTest method to SwitchManager to test for duplicate pin assignments.
+
+2012.02.20
+- Cleaned up command handling to handle ugly data.  There was a bug in previous version on parseCommand.
+- Still have to move Error Codes and Serialization Tokens to common area, or centralize Serial commands.
+- Added command count to pair up commands with responses.
+- CVMMDriverTest is working with this version of CVMM_2
+
+2012.11.14
+- Installed latest version of Visual Micro and testing it out on peacock.
+- taking a look around since it's been nearly a year.  Due is shipping later this month.
+- expanding on some documentation for clarity.
+- there is a problem with the on_since switch array where millis COULD == 0, but we use 0 for not set.
+    very unlikely
+- BUG: Solenoids are only fired from command in right now.  I though I was going to hardwire instant 
+    response directly from the switch reader.  We can add an array in the SwitchManager that bundles
+    a switch to a solenoidIndex, then just fire SolenoidFireInstant with the juston or justoff ones.
+- BUG: The solenoid chaining is only done in SolenoidFireImmediate, not in WriteBank.  Since SFI is
+    only called on switch changes, the logic should be in writeBank too.  Otherwise SFI needs to be
+    called every iteration.
+
+2013.01.25
+- Installed the Jan 11th(?) Visual Micro.  It still does not support Due but next release should.
+- Going to link the checkSwitches() method to the SolenoidFireInstant() method:
+    * adding an array that couples a switch to a solenoid number (_button_solImmed).
+    * if _button_solImmed[IndexOfSwitch] != NOSOLENOID then we'll call SFI().
+    * SFI() has no change and just toggles what _should_ be on or off and chained.
+    * loop() then calls writeBank() which handles the actual solenoid firing.
+- I can't understand why I have the switches in 7 bit blocks.  I really don't though.
+    The arrayToByteArray() method returns an array of bytes using all 8 bits, not 7.
+    I think I used to use the last bit as a delineater... can't tell.  
+    End results is that the comments don't reflect the code.  Will change as soon as I test/confirm.
+- Need to change the Solenoid constants from SOL00 to SOLLPOW, and SOL24 to SOLRSLING for readability.
+- Need to standardize Serial output.  We're dumping bytes for switch state, but also text for errors.
+    Create a single WriteError() method that takes a string and prints it with a known header and footer. 
+
+#################
+Big Ideas:
+#################
+- The serialized data should be packetized with header to determine packet type and length.
+    for instance, [packettype, packetlength, packetdata]
+    so we can know what we are reading and have a defined packet length that is variable.
+
+- Since we compress our array of 0s and 1s into a byte array to serialize, if we get good at looking
+    at bit shifting, we could just leave it as bytes instead of arrays of fake bits.
+    The speed gained wouldn't be worth the readability loss.
+
+- We need a *IDN? for firmware version and some kind of sticky error messages.
+    We also need uptime.
