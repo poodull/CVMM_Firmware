@@ -1,8 +1,6 @@
-#define MEGA true
-//#define MAX32 true
-//#define TEENSYPP true?
 
-#if MEGA
+
+#if defined(__SAM3X8E__) || defined(__32MX795F512L__)
 const	uint8_t	MYPIN_0	=	0;
 const	uint8_t	MYPIN_1	=	1;
 const	uint8_t	MYPIN_2	=	2;
@@ -85,8 +83,7 @@ const	uint8_t	MYPIN_73	=	73;
 //************************
 //* SOLENOID OUTPUT PIN DEFINITIONS
 //************************
-
-#if MEGA
+#if defined(__SAM3X8E__) || defined(__32MX795F512L__)
     const   uint8_t PO_SOLD0 =  MYPIN_54;    //Solenoid Data 0
     const   uint8_t PO_SOLD1 =  MYPIN_55;    //Solenoid Data 1
     const   uint8_t PO_SOLD2 =  MYPIN_56;    //Solenoid Data 2
@@ -126,7 +123,7 @@ uint8_t _powerBoardPins[] = {PO_SOLD0, PO_SOLD1, PO_SOLD2, PO_SOLD3, PO_SOLD4, P
 //* INPUT PIN DEFINITIONS
 //***********************
 
-#if MEGA
+#if defined(__SAM3X8E__) || defined(__32MX795F512L__)
 const uint8_t   PO_STATUS   =   MYPIN_72;   //Status LED
 const uint8_t	PI_OUTH     =	MYPIN_48;	//	Outhole                     1.1
 const uint8_t	PI_TROR     =	MYPIN_47;	//	Right Trough                1.2
@@ -199,7 +196,7 @@ const uint8_t	PI_RFLIP	=	MYPIN_51;	//	Right Flipper               7.64
 //***********************
 //* PWM (SERVO) PIN DEFINITIONS
 //***********************
-#if MEGA
+#if defined(__SAM3X8E__) || defined(__32MX795F512L__)
     #define PWM_CENTER  MYPIN_67
     #define PWM_ELEV    MYPIN_68
 #elif TEENSYPP

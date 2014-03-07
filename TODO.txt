@@ -1,3 +1,8 @@
+2014.03.07
+- Upgraded to vs2013.  Native Due and Max32 supported in Visual Micro.
+- Checked into github at https://github.com/poodull/CVMM_Firmware.git
+- Fixed defines for board type, unifying mega and max32.
+
 2013.03.20
 - Changed debug and status commands to query and on/off sets based on 2nd parameter:
     ? Queries the status    //#!?.

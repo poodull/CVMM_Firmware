@@ -1,4 +1,4 @@
-//#define MEGA true
+
 //#define  __PIC32MX__ 1		//any Chipkit PIC
 //#define  __32MX320F128H__ 1	//Uno32
 #define  __32MX795F512L__ 1		//Max32
@@ -6,6 +6,7 @@
 //#define __AVR_ATmega2560__ 1	//Mega2650
 //#define __SAM3X8E__ 1			//Due
 //#define __AVR_ATmega328P__ 1	//Uno
+//#define TEENSYPP 1            //Teensy++
 
 void setup()
 {    
